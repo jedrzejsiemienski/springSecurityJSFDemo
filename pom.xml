@@ -5,4 +5,34 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
   <name>UrticaRecruitmentTask</name>
+  
+	<properties>
+		<jdk.version>1.6</jdk.version>
+		<org.springframework-version>4.3.0.RELEASE</org.springframework-version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+	</dependencies>
+  
+	<build>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.3</version>
+				<configuration>
+					<source>${jdk.version}</source>
+					<target>${jdk.version}</target>
+				</configuration>
+			</plugin>
+		</plugins>
+
+	</build>
+  
 </project>
