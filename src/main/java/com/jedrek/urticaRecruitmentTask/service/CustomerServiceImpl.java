@@ -2,6 +2,7 @@ package com.jedrek.urticaRecruitmentTask.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.jedrek.urticaRecruitmentTask.model.City;
 import com.jedrek.urticaRecruitmentTask.model.Customer;
@@ -17,6 +18,7 @@ public class CustomerServiceImpl implements CustomerService{
 	@Autowired
 	CityRepository cityRepo;
 	
+	@Transactional
 	public Customer addCustomer(String login, String password, String name, long cityId) throws NullPointerException{
 		City city = cityRepo.findOne(cityId);
 		if(city == null){
@@ -35,6 +37,7 @@ public class CustomerServiceImpl implements CustomerService{
 		return customer;
 	}
 	
+	@Transactional
 	public Customer saveCustomer(Customer customer){
 		customerRepo.save(customer);
 		return customer;
