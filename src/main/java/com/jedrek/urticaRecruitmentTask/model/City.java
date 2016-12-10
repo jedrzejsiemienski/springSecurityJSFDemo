@@ -10,13 +10,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.NaturalId;
+
 @Entity
 public class City {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
+
+	@NaturalId
 	private String name;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "city")
