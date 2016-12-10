@@ -48,4 +48,10 @@ public class TestCustomerService {
 		
 		assertEquals(2, cityRepo.findOne(cityId).getCustomers().size());
 	}
+	
+	@Test(expected=NullPointerException.class)
+	@Transactional
+	public void testCreate_nullCity(){
+		customerService.addCustomer("l1", "p1", "c1", 0);
+	}
 }
