@@ -34,7 +34,7 @@ public class TestCustomerService {
 	@Transactional
 	public void testCreate(){
 		City wro = new City();
-		wro.setName("Wroclaw");
+		wro.setName("Wrocław");
 		long cityId = cityRepo.save(wro).getId();
 		
 		Customer c1 = customerService.addCustomer("l1", "p1", "c1", cityId);
