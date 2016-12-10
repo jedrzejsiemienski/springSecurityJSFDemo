@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.NaturalId;
+
 @Entity
 public class Customer {
 	@Id
@@ -15,6 +17,8 @@ public class Customer {
 	private long id;
 	
 	private String name;
+	
+	@NaturalId
 	private String login;
 	private String password;
 	
