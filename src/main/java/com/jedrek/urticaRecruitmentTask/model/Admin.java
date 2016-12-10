@@ -10,7 +10,7 @@ public class Admin {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-
+	
 	private String email;
 	
 	public void setId(long id){

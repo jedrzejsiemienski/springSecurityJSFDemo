@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 //@RequestMapping("/")
 public class CustomersController {
 
-
-	
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody
     public String test() {
