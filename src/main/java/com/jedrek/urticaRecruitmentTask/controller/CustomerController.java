@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 //@RequestMapping("/")
-public class CustomersController {
+public class CustomerController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody
