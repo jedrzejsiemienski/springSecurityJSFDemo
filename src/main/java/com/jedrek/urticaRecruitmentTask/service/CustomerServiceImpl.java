@@ -27,7 +27,7 @@ public class CustomerServiceImpl implements CustomerService{
 		
 		Customer customer = new Customer();
 		customer.setLogin(login);
-		customer.setLogin(password);
+		customer.setPassword(password);
 		customer.setName(name);
 		customer.setCity(city);
 		city.getCustomers().add(customer);

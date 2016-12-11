@@ -8,6 +8,7 @@
  
     <http auto-config="true"  use-expressions="true">
         <intercept-url pattern="/login.xhtml" access="permitAll" />
+        <intercept-url pattern="/register.xhtml" access="permitAll" />
         <intercept-url pattern="/accessdenied.xhtml" access="permitAll" />
         <intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
         <form-login 
