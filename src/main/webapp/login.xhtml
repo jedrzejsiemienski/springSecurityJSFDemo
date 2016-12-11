@@ -6,20 +6,37 @@
 	<title>login</title>
 </h:head>
 <h:body>
+
 	<h:form>
 		<h3>JSF Login Logout</h3>
 		<h:outputText value="Username" />
-		<h:inputText id="username" value="#{login.login}"></h:inputText>
+		<h:inputText id="username" name="username"></h:inputText>
 		<h:message for="username"></h:message>
 		<br /><br />
 		
 		<h:outputText value="Password" />
-		<h:inputSecret id="password" value="#{login.password}"></h:inputSecret>
+		<h:inputSecret id="password" name="password" ></h:inputSecret>
 		<h:message for="password"></h:message>
 		<br /><br />
-		
-		<h:commandButton action="#{login.doLogin}"
-			value="Login"></h:commandButton>
+ 		<h:commandButton value="Login"></h:commandButton>
 	</h:form>
+
+
+	<form id="login_form" action="#{request.contextPath}/login" method="post">
+	    <p>
+	        <label for="j_username" class="login-form-tag">User</label> 
+	        <input type="text" id="username" name="username"/>
+	    </p>
+	    <p>
+	        <label for="j_password" class="login-form-tag">Password</label>
+	        <input type="password" id="password" name="password"/>
+	    </p>
+	    <p>
+	        <button type="submit">
+	            <span class="ui-button-text">Login</span>
+	        </button>
+	    </p>
+	</form>
+    
 </h:body>
 </html>

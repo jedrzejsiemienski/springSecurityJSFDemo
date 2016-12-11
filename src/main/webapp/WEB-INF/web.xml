@@ -15,10 +15,10 @@
 		</listener-class>
 	</listener>
 
-	<!-- Welcome page -->
+	<!-- Welcome page 
 	<welcome-file-list>
-		<welcome-file>default.jsf</welcome-file>
-	</welcome-file-list>
+		<welcome-file>profile.jsf</welcome-file>
+	</welcome-file-list>-->
 
 	<!-- JSF Mapping -->
 	<servlet>

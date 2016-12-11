@@ -11,7 +11,7 @@ public class Login {
 	private String password;
 	
 	public void doLogin(){
-		
+
 	}
 	
 	public void doLogout(){
