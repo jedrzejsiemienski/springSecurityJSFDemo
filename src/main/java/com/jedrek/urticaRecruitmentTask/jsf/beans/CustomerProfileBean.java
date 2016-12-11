@@ -1,18 +1,12 @@
 package com.jedrek.urticaRecruitmentTask.jsf.beans;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.AjaxBehaviorEvent;
-import javax.faces.event.ValueChangeEvent;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +19,7 @@ import com.jedrek.urticaRecruitmentTask.model.City;
 import com.jedrek.urticaRecruitmentTask.model.Customer;
 import com.jedrek.urticaRecruitmentTask.repos.CityRepository;
 import com.jedrek.urticaRecruitmentTask.repos.CustomerRepository;
-import com.sun.faces.mgbean.ManagedBeanInfo.MapEntry;
+import com.jedrek.urticaRecruitmentTask.service.CustomerService;
 
 @Component
 @ManagedBean
@@ -38,8 +32,9 @@ public class CustomerProfileBean {
 	@Autowired
 	CustomerRepository customerRepository;
 	
-	private final static Logger logger = Logger.getLogger(CustomerProfileBean.class);	
-	
+	@Autowired
+	CustomerService customerService;
+
 	private long cityId;
 	
 	private Customer currentCustomer;
@@ -68,18 +63,16 @@ public class CustomerProfileBean {
 		return currentCustomer.getId();
 	}
 	
-	@Transactional
 	public void deleteCustomer(AjaxBehaviorEvent e){
-		Long id = (Long)e.getComponent().getAttributes().get("customerId");
-		customerRepository.delete(id);
+		customerService.deleteCustomer(
+			(Long)e.getComponent().getAttributes().get("customerId"));
 	}
 	
 	@Transactional
 	public void setCustomerName(String newName) {
 		//logger.debug("\n\n\nSetting name to " + newName + "\n\n\n");
 		loadCurrentCustomer();
-		currentCustomer.setName(newName);
-		customerRepository.save(currentCustomer);
+		customerService.changeCustomerName(currentCustomer.getId(), newName);
 	}
 	
 	@Transactional
@@ -95,19 +88,13 @@ public class CustomerProfileBean {
 	}
 
 	@Transactional
-	public void setCurrentCustomerCityId(long cityId) {
+	public void setCurrentCustomerCityId(long newCityId) {
 		loadCurrentCustomer();
-		currentCustomer.getCity().getCustomers().remove(currentCustomer);
-		
-		City newCity = cityRepository.findOne(cityId);
-		newCity.getCustomers().add(currentCustomer);
-		currentCustomer.setCity(newCity);
-		customerRepository.save(currentCustomer);
+		customerService.changeCustomerCity(currentCustomer.getId(), newCityId);
 	}
 
 	public Map<String, Long> getCitiesMap(){
-		return StreamSupport.stream(cityRepository.findAll().spliterator(), false)
-				.collect(Collectors.toMap(City::getName, City::getId));
+		return customerService.getCitiesMap();
 	}
 
 	public long getCityId() {
@@ -118,15 +105,8 @@ public class CustomerProfileBean {
 		this.cityId = cityId;
 	}
 	
-	@Transactional
 	public List<Customer> getCustomersForCity(){
-		//logger.warn("\n\n\n Updating users for city \n\n\n");
-		City city = cityRepository.findOne(cityId);
-		return city.getCustomers().stream()
-			.sorted((c1, c2) -> c1.getName().compareToIgnoreCase(c2.getName()))
-			.collect(Collectors.toList());
+		return customerService.getCustomersForCity(cityId);
 	}
-
-
 	
 }
