@@ -1,19 +1,13 @@
 package com.jedrek.urticaRecruitmentTask.jsf.beans;
 
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.ViewScoped;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.jedrek.urticaRecruitmentTask.model.City;
-import com.jedrek.urticaRecruitmentTask.repos.CityRepository;
 import com.jedrek.urticaRecruitmentTask.service.CustomerService;
 
 @Component
@@ -21,14 +15,9 @@ import com.jedrek.urticaRecruitmentTask.service.CustomerService;
 @RequestScoped
 public class CustomerCreatorBean {
 
-	private final static Logger logger = Logger.getLogger(CustomerCreatorBean.class);
-	
 	@Autowired
 	CustomerService customerService;
-	
-	@Autowired
-	CityRepository cityRepository;
-	
+
 	private String login;
 	private String password;
 	private String name;
@@ -45,8 +34,7 @@ public class CustomerCreatorBean {
 	}
 
 	public Map<String, Long> getCitiesMap(){
-		return StreamSupport.stream(cityRepository.findAll().spliterator(), false)
-				.collect(Collectors.toMap(City::getName, City::getId));
+		return customerService.getCitiesMap();
 	}
 
 	public String getLogin() {

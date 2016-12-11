@@ -1,5 +1,9 @@
 package com.jedrek.urticaRecruitmentTask.service;
 
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -53,6 +57,13 @@ public class CustomerServiceImpl implements CustomerService{
 	public Customer saveCustomer(Customer customer){
 		customerRepo.save(customer);
 		return customer;
+	}
+	
+	@Transactional
+	@Override
+	public Map<String, Long> getCitiesMap(){
+		return StreamSupport.stream(cityRepo.findAll().spliterator(), false)
+				.collect(Collectors.toMap(City::getName, City::getId));
 	}
 	
 }
