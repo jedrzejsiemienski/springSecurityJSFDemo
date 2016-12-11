@@ -1,6 +1,5 @@
 package com.jedrek.urticaRecruitmentTask.jsf.beans;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
