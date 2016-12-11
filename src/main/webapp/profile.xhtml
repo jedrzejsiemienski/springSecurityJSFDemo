@@ -6,13 +6,10 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:head>
-	<title>Facelet Title</title>
+	<title>profile</title>
 </h:head>
 <h:body>
-
-
 	<a href="#{request.contextPath}/logout">logout</a>
-	
 	<h:panelGroup layout="block" id="currentCustomerInfo">
 		<h1>Welcome #{customerProfileBean.customerName}</h1>
 		<h2>You are assigned to city #{customerProfileBean.customerCityName}</h2>
@@ -57,9 +54,6 @@
 				</h:column>
 			</h:dataTable>
 		</h:form>
-	
 	</h:panelGroup>
-	
-
 </h:body>
 </html>
