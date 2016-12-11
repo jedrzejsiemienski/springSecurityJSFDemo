@@ -30,6 +30,16 @@
                             required="true" requiredMessage="Please enter your password" /></td>
                     <td><h:message for="psw" style="color:red" /></td>
                 </tr>
+                  
+                <tr>
+					<td><h:outputText value="Choose city :" /></td>
+                    <td>
+				   		<h:selectOneMenu value="#{customerCreatorBean.cityId}">
+							<f:selectItems value="#{customerCreatorBean.citiesMap}" />
+				   		</h:selectOneMenu>                    
+                    </td>
+                </tr> 
+               
                 <tr>
                     <td />
                     <td><h:commandButton value="Register" action="#{customerCreatorBean.createCustomer}"/></td>

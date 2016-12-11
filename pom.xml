@@ -7,7 +7,7 @@
   <name>UrticaRecruitmentTask</name>
   
 	<properties>
-		<jdk.version>1.6</jdk.version>
+		<jdk.version>1.8</jdk.version>
 		<org.springframework-version>4.3.0.RELEASE</org.springframework-version>
 		<org.springframework.security.version>4.2.0.RELEASE</org.springframework.security.version>
 	</properties>

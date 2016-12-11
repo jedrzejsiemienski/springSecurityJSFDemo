@@ -1,5 +1,10 @@
 package com.jedrek.urticaRecruitmentTask.jsf.beans;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
@@ -27,26 +32,16 @@ public class CustomerCreatorBean {
 	private String login;
 	private String password;
 	private String name;
+	private long cityId;
 	
 	public String createCustomer(){
-		logger.debug(
-			String.format("Starting customer creation with creds: login=%s password=%s name=%s", login, password, name));
-		
-		Iterable<City> cities = cityRepository.findAll();
-		customerService.addCustomer(login, password, name, cities.iterator().next().getId());
-		logger.debug("Customer created .............");
-		
+		customerService.addCustomer(login, password, name, cityId);
 		return "login.xhtml";
 	}
 
-	public String printMsgFromSpring() {
-		Iterable<City> cities = cityRepository.findAll();
-		StringBuilder result = new StringBuilder();
-		for(City city : cities){
-			result.append(city.getName());
-			result.append(" ");
-		}
-		return result.toString();
+	public Map<String, Long> getCitiesMap(){
+		return StreamSupport.stream(cityRepository.findAll().spliterator(), false)
+				.collect(Collectors.toMap(City::getName, City::getId));
 	}
 
 	public String getLogin() {
@@ -71,6 +66,14 @@ public class CustomerCreatorBean {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public long getCityId() {
+		return cityId;
+	}
+
+	public void setCityId(long cityId) {
+		this.cityId = cityId;
 	}
 	
 }
