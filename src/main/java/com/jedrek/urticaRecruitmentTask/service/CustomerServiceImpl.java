@@ -23,6 +23,7 @@ public class CustomerServiceImpl implements CustomerService{
     PasswordEncoder passwordEncoder;
 	
 	@Transactional
+	@Override
 	public Customer addCustomer(String login, String password, String name, long cityId) throws NullPointerException{
 		City city = cityRepo.findOne(cityId);
 		if(city == null){
@@ -42,6 +43,13 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 	
 	@Transactional
+	@Override
+	public boolean loginExists(String login){
+		return customerRepo.findByLogin(login) != null;
+	}
+	
+	@Transactional
+	@Override
 	public Customer saveCustomer(Customer customer){
 		customerRepo.save(customer);
 		return customer;

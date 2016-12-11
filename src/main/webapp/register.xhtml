@@ -9,6 +9,9 @@
     <title>register</title>
 </h:head>
 <h:body>
+	<font color="red">
+		<h:outputText value="User with this login exists" rendered="#{customerCreatorBean.loginExists}"/>
+    </font>
     <f:view>
         <h:form id="registerForm">
             <table>

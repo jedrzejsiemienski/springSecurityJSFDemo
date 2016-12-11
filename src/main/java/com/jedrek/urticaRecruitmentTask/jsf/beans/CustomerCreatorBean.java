@@ -6,6 +6,7 @@ import java.util.stream.StreamSupport;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,13 @@ public class CustomerCreatorBean {
 	private String password;
 	private String name;
 	private long cityId;
+	private boolean loginExists = false;
 	
 	public String createCustomer(){
+		if(customerService.loginExists(login)){
+			setLoginExists(true);
+			return "register.xhtml";
+		}
 		customerService.addCustomer(login, password, name, cityId);
 		return "login.xhtml";
 	}
@@ -73,6 +79,14 @@ public class CustomerCreatorBean {
 
 	public void setCityId(long cityId) {
 		this.cityId = cityId;
+	}
+
+	public boolean getLoginExists() {
+		return loginExists;
+	}
+
+	public void setLoginExists(boolean loginExists) {
+		this.loginExists = loginExists;
 	}
 	
 }

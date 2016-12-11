@@ -13,8 +13,7 @@
         <intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
         <form-login 
         	login-page="/login.xhtml" 
-        	default-target-url="/profile.xhtml" 
-        	authentication-failure-url="/accessdenied.xhtml" 
+        	default-target-url="/profile.xhtml"  
         	always-use-default-target="true"
         />
         <logout logout-success-url="/logout.xhtml" />
