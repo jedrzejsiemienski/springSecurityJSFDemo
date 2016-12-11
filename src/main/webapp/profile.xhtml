@@ -21,8 +21,8 @@
 		</h:selectOneMenu>
 	</h:form>
 	
-	<h:dataTable id="customers" value="#{customerProfileBean.customersForCity}" var="customer">
-		<h:column>#{customer.name}</h:column>
+	<h:dataTable id="customers" value="#{customerProfileBean.customersForCity}" var="customerName">
+		<h:column>#{customerName}</h:column>
 	</h:dataTable>
 
 </h:body>

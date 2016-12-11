@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ValueChangeEvent;
@@ -32,7 +33,12 @@ public class CustomerProfileBean {
 	
 	private final static Logger logger = Logger.getLogger(CustomerProfileBean.class);	
 	
-	private long cityId = 10;
+	private long cityId;
+	
+	@PostConstruct
+	private void init(){
+		cityId = cityRepository.findAll().iterator().next().getId();
+	}
 	
 	public String getCustomerName() {
 	      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -54,10 +60,13 @@ public class CustomerProfileBean {
 	}
 	
 	@Transactional
-	public List<Customer> getCustomersForCity(){
+	public List<String> getCustomersForCity(){
 		logger.debug(String.format("\n\nGetting customers for city id %s\n\n", cityId));
 		City city = cityRepository.findOne(cityId);
-		return city.getCustomers().stream().collect(Collectors.toList());
+		return city.getCustomers().stream()
+			.map(Customer::getName)
+			.sorted((n1, n2) -> n1.compareToIgnoreCase(n2))
+			.collect(Collectors.toList());
 	}
 
 
