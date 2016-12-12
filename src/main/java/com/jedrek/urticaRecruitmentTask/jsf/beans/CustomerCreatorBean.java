@@ -8,6 +8,7 @@ import javax.faces.bean.RequestScoped;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.jedrek.urticaRecruitmentTask.service.CityService;
 import com.jedrek.urticaRecruitmentTask.service.CustomerService;
 
 @Component
@@ -17,6 +18,9 @@ public class CustomerCreatorBean {
 
 	@Autowired
 	CustomerService customerService;
+	
+	@Autowired
+	CityService cityService;
 
 	private String login;
 	private String password;
@@ -34,7 +38,7 @@ public class CustomerCreatorBean {
 	}
 
 	public Map<String, Long> getCitiesMap(){
-		return customerService.getCitiesMap();
+		return cityService.getCitiesMap();
 	}
 
 	public String getLogin() {

@@ -18,8 +18,4 @@ public interface CustomerService {
 	CurrentCustomerData getCurrentCustomerData(String login);
 	
 	boolean loginExists(String login);
-	
-	Map<String, Long> getCitiesMap();
-	List<Customer> getCustomersForCity(long cityId);
-	City getDefaultCity();
 }

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.jedrek.urticaRecruitmentTask.model.Customer;
+import com.jedrek.urticaRecruitmentTask.service.CityService;
 import com.jedrek.urticaRecruitmentTask.service.CustomerService;
 
 @Component
@@ -22,11 +23,14 @@ public class CitiesManagerBean {
 	@Autowired
 	CustomerService customerService;
 	
+	@Autowired
+	CityService cityService;
+	
 	private long cityId;
 	
 	@PostConstruct
 	private void init(){
-		cityId = customerService.getDefaultCity().getId();
+		cityId = cityService.getDefaultCity().getId();
 	}
 	
 	public long getCityId() {
@@ -38,11 +42,11 @@ public class CitiesManagerBean {
 	}
 	
 	public Map<String, Long> getCitiesMap(){
-		return customerService.getCitiesMap();
+		return cityService.getCitiesMap();
 	}
 
 	public List<Customer> getCustomersForCity(){
-		return customerService.getCustomersForCity(cityId);
+		return cityService.getCustomersForCity(cityId);
 	}
 	
 	public void deleteCustomer(AjaxBehaviorEvent e){
