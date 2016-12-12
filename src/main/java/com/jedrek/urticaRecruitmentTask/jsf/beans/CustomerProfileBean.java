@@ -8,7 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import com.jedrek.urticaRecruitmentTask.model.BasicCustomerData;
+import com.jedrek.urticaRecruitmentTask.model.Customer;
 import com.jedrek.urticaRecruitmentTask.service.CustomerService;
 
 @Component
@@ -19,8 +19,8 @@ public class CustomerProfileBean {
 	@Autowired
 	CustomerService customerService;
 
-	BasicCustomerData currentCustomer;
-	private BasicCustomerData loadCurrentCustomer(boolean force){
+	Customer currentCustomer;
+	private Customer loadCurrentCustomer(boolean force){
 		if(currentCustomer == null || force){
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			currentCustomer = customerService.getBasicCustomerDataForLogin(auth.getName());			
@@ -29,28 +29,28 @@ public class CustomerProfileBean {
 	}
 	
 	public void setCustomerName(String newName) {
-		customerService.changeCustomerName(loadCurrentCustomer(false).id, newName);
+		customerService.changeCustomerName(loadCurrentCustomer(false).getId(), newName);
 		loadCurrentCustomer(true);
 	}
 	
 	public void setCustomerCityId(long newCityId) {
-		customerService.changeCustomerCity(loadCurrentCustomer(false).id, newCityId);
+		customerService.changeCustomerCity(loadCurrentCustomer(false).getId(), newCityId);
 		loadCurrentCustomer(true);
 	}
 	
 	public String getCustomerName() {
-		return loadCurrentCustomer(false).name;
+		return loadCurrentCustomer(false).getName();
 	}
 	
 	public long getCustomerId() {
-		return loadCurrentCustomer(false).id;
+		return loadCurrentCustomer(false).getId();
 	}
 	
 	public String getCustomerCityName() {
-		return loadCurrentCustomer(false).cityName;
+		return loadCurrentCustomer(false).getCity().getName();
 	}
 	
 	public long getCustomerCityId() {
-		return loadCurrentCustomer(false).cityId;
+		return loadCurrentCustomer(false).getCity().getId();
 	}
 }

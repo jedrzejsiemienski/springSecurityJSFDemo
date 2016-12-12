@@ -22,7 +22,7 @@ public class Customer {
 	private String login;
 	private String password;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "city_id", nullable = false)
 	private City city;
 	

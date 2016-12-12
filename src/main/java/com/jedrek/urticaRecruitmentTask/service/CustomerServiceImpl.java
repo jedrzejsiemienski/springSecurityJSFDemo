@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jedrek.urticaRecruitmentTask.model.City;
-import com.jedrek.urticaRecruitmentTask.model.BasicCustomerData;
 import com.jedrek.urticaRecruitmentTask.model.Customer;
 import com.jedrek.urticaRecruitmentTask.repos.CityRepository;
 import com.jedrek.urticaRecruitmentTask.repos.CustomerRepository;
@@ -79,14 +78,8 @@ public class CustomerServiceImpl implements CustomerService{
 	
 	@Transactional
 	@Override
-	public BasicCustomerData getBasicCustomerDataForLogin(String login){
-		Customer customer = customerRepo.findByLogin(login);
-		BasicCustomerData result = new BasicCustomerData();
-		result.id = customer.getId();
-		result.name = customer.getName();
-		result.cityId = customer.getCity().getId();
-		result.cityName = customer.getCity().getName();
-		return result;
+	public Customer getBasicCustomerDataForLogin(String login){
+		return customerRepo.findByLogin(login);
 	}
 	
 	@Transactional

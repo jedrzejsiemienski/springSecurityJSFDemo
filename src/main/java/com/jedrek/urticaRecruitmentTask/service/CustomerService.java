@@ -1,6 +1,5 @@
 package com.jedrek.urticaRecruitmentTask.service;
 
-import com.jedrek.urticaRecruitmentTask.model.BasicCustomerData;
 import com.jedrek.urticaRecruitmentTask.model.Customer;
 
 public interface CustomerService {
@@ -11,7 +10,7 @@ public interface CustomerService {
 	
 	Customer changeCustomerCity(long customerId, long newCityId);
 	Customer changeCustomerName(long customerId, String newName);
-	BasicCustomerData getBasicCustomerDataForLogin(String login);
+	Customer getBasicCustomerDataForLogin(String login);
 	
 	boolean loginExists(String login);
 }
