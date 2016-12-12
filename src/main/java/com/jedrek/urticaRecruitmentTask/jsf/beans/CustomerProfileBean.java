@@ -5,9 +5,11 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,6 +26,8 @@ import com.jedrek.urticaRecruitmentTask.service.CustomerService;
 @SessionScoped
 public class CustomerProfileBean {
 
+	private static final Logger logger = Logger.getLogger(CustomerProfileBean.class);
+	
 	@Autowired
 	CityRepository cityRepository;
 	
@@ -35,46 +39,38 @@ public class CustomerProfileBean {
 
 	private long cityId;
 	
-	private CurrentCustomerData currentCustomer;
-	
 	@PostConstruct
 	private void init(){
 		cityId = customerService.getDefaultCity().getId();
 	}
 	
-	private void loadCurrentCustomer(){
+	private CurrentCustomerData loadCurrentCustomer(){
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		currentCustomer = customerService.getCurrentCustomerData(auth.getName());
-	}
-	
-	public String getCustomerName() {
-		loadCurrentCustomer();
-		return currentCustomer.name;
-	}
-	
-	public long getCustomerId() {
-		loadCurrentCustomer();
-		return currentCustomer.id;
+		return customerService.getCurrentCustomerData(auth.getName());			
 	}
 	
 	public void setCustomerName(String newName) {
-		loadCurrentCustomer();
-		customerService.changeCustomerName(currentCustomer.id, newName);
+		customerService.changeCustomerName(loadCurrentCustomer().id, newName);
+	}
+	
+	public void setCurrentCustomerCityId(long newCityId) {
+		customerService.changeCustomerCity(loadCurrentCustomer().id, newCityId);
+	}
+	
+	public String getCustomerName() {
+		return loadCurrentCustomer().name;
+	}
+	
+	public long getCustomerId() {
+		return loadCurrentCustomer().id;
 	}
 	
 	public String getCustomerCityName() {
-		loadCurrentCustomer();
-		return currentCustomer.cityName;
+		return loadCurrentCustomer().cityName;
 	}
 	
 	public long getCurrentCustomerCityId() {
-		loadCurrentCustomer();
-		return currentCustomer.cityId;
-	}
-
-	public void setCurrentCustomerCityId(long newCityId) {
-		loadCurrentCustomer();
-		customerService.changeCustomerCity(currentCustomer.id, newCityId);
+		return loadCurrentCustomer().cityId;
 	}
 
 	public Map<String, Long> getCitiesMap(){
