@@ -1,20 +1,14 @@
 package com.jedrek.urticaRecruitmentTask.jsf.beans;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.event.AjaxBehaviorEvent;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import com.jedrek.urticaRecruitmentTask.model.CurrentCustomerData;
+import com.jedrek.urticaRecruitmentTask.model.BasicCustomerData;
 import com.jedrek.urticaRecruitmentTask.service.CustomerService;
 
 @Component
@@ -22,16 +16,14 @@ import com.jedrek.urticaRecruitmentTask.service.CustomerService;
 @SessionScoped
 public class CustomerProfileBean {
 
-	private static final Logger logger = Logger.getLogger(CustomerProfileBean.class);
-	
 	@Autowired
 	CustomerService customerService;
 
-	CurrentCustomerData currentCustomer;
-	private CurrentCustomerData loadCurrentCustomer(boolean force){
+	BasicCustomerData currentCustomer;
+	private BasicCustomerData loadCurrentCustomer(boolean force){
 		if(currentCustomer == null || force){
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			currentCustomer = customerService.getCurrentCustomerData(auth.getName());			
+			currentCustomer = customerService.getBasicCustomerDataForLogin(auth.getName());			
 		}
 		return currentCustomer;
 	}
