@@ -25,8 +25,8 @@
 	
 			<h:panelGrid columns="3">
 				Change your city :
-				<h:selectOneMenu id="customerCountryList" value="#{customerProfileBean.currentCustomerCityId}">
-					<f:selectItems value="#{customerProfileBean.citiesMap}" />
+				<h:selectOneMenu id="customerCountryList" value="#{customerProfileBean.customerCityId}">
+					<f:selectItems value="#{citiesManagerBean.citiesMap}" />
 				</h:selectOneMenu>
 				<h:commandButton value="Update">
 					<f:ajax execute="customerCountryList" render="currentCustomerInfo" />
@@ -34,18 +34,18 @@
 			</h:panelGrid>
 			
 			<h2>Manage people assigned to cities:</h2>	
-			<h:selectOneMenu id="countryList" value="#{customerProfileBean.cityId}">
-				<f:selectItems value="#{customerProfileBean.citiesMap}" />
+			<h:selectOneMenu id="countryList" value="#{citiesManagerBean.cityId}">
+				<f:selectItems value="#{citiesManagerBean.citiesMap}" />
 				<f:ajax event="change" execute="countryList" render="customers" />
 			</h:selectOneMenu>
 		
-			<h:dataTable id="customers" value="#{customerProfileBean.customersForCity}" var="customer">
+			<h:dataTable id="customers" value="#{citiesManagerBean.customersForCity}" var="customer">
 				<h:column>#{customer.id}</h:column>
 				<h:column>#{customer.name}</h:column>
 				<h:column>
 					<h:commandButton value="Delete" rendered="#{customer.id != customerProfileBean.customerId}">
 						<f:attribute name="customerId" value="#{customer.id}" />
-						<f:ajax listener="#{customerProfileBean.deleteCustomer}" render="currentCustomerInfo" />
+						<f:ajax listener="#{citiesManagerBean.deleteCustomer}" render="currentCustomerInfo" />
 					</h:commandButton>
 				</h:column>
 			</h:dataTable>

@@ -15,9 +15,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import com.jedrek.urticaRecruitmentTask.model.CurrentCustomerData;
-import com.jedrek.urticaRecruitmentTask.model.Customer;
-import com.jedrek.urticaRecruitmentTask.repos.CityRepository;
-import com.jedrek.urticaRecruitmentTask.repos.CustomerRepository;
 import com.jedrek.urticaRecruitmentTask.service.CustomerService;
 
 @Component
@@ -28,81 +25,40 @@ public class CustomerProfileBean {
 	private static final Logger logger = Logger.getLogger(CustomerProfileBean.class);
 	
 	@Autowired
-	CityRepository cityRepository;
-	
-	@Autowired
-	CustomerRepository customerRepository;
-	
-	@Autowired
 	CustomerService customerService;
 
-	private long cityId;
-	
-	@PostConstruct
-	private void init(){
-		cityId = customerService.getDefaultCity().getId();
-	}
-	
 	CurrentCustomerData currentCustomer;
-	private void loadCurrentCustomer(boolean force){
+	private CurrentCustomerData loadCurrentCustomer(boolean force){
 		if(currentCustomer == null || force){
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			currentCustomer = customerService.getCurrentCustomerData(auth.getName());			
 		}
+		return currentCustomer;
 	}
 	
 	public void setCustomerName(String newName) {
-		loadCurrentCustomer(false);
-		customerService.changeCustomerName(currentCustomer.id, newName);
+		customerService.changeCustomerName(loadCurrentCustomer(false).id, newName);
 		loadCurrentCustomer(true);
 	}
 	
-	public void setCurrentCustomerCityId(long newCityId) {
-		loadCurrentCustomer(false);
-		customerService.changeCustomerCity(currentCustomer.id, newCityId);
+	public void setCustomerCityId(long newCityId) {
+		customerService.changeCustomerCity(loadCurrentCustomer(false).id, newCityId);
 		loadCurrentCustomer(true);
 	}
 	
 	public String getCustomerName() {
-		loadCurrentCustomer(false);
-		return currentCustomer.name;
+		return loadCurrentCustomer(false).name;
 	}
 	
 	public long getCustomerId() {
-		loadCurrentCustomer(false);
-		return currentCustomer.id;
+		return loadCurrentCustomer(false).id;
 	}
 	
 	public String getCustomerCityName() {
-		loadCurrentCustomer(false);
-		return currentCustomer.cityName;
+		return loadCurrentCustomer(false).cityName;
 	}
 	
-	public long getCurrentCustomerCityId() {
-		loadCurrentCustomer(false);
-		return currentCustomer.cityId;
+	public long getCustomerCityId() {
+		return loadCurrentCustomer(false).cityId;
 	}
-
-	public Map<String, Long> getCitiesMap(){
-		return customerService.getCitiesMap();
-	}
-
-	public List<Customer> getCustomersForCity(){
-		return customerService.getCustomersForCity(cityId);
-	}
-	
-	public void deleteCustomer(AjaxBehaviorEvent e){
-		logger.warn(String.format("Deleting customer"));
-		customerService.deleteCustomer(
-			(Long)e.getComponent().getAttributes().get("customerId"));
-	}
-	
-	public long getCityId() {
-		return cityId;
-	}
-
-	public void setCityId(long cityId) {
-		this.cityId = cityId;
-	}
-	
 }
