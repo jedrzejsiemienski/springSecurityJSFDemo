@@ -8,6 +8,6 @@ import com.jedrek.urticaRecruitmentTask.model.Customer;
 
 public interface CityService {
 	Map<String, Long> getCitiesMap();
-	List<Customer> getCustomersForCity(long cityId);
+	List<Customer> getSortedCustomersForCity(long cityId);
 	City getDefaultCity();
 }

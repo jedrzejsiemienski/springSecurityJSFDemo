@@ -21,7 +21,7 @@ public class CityServiceImpl implements CityService {
 	
 	@Transactional
 	@Override
-	public List<Customer> getCustomersForCity(long cityId){
+	public List<Customer> getSortedCustomersForCity(long cityId){
 		City city = cityRepo.findOne(cityId);
 		return city.getCustomers().stream()
 			.sorted((c1, c2) -> c1.getName().compareToIgnoreCase(c2.getName()))

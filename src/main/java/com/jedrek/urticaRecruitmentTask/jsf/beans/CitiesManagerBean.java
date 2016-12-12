@@ -46,7 +46,7 @@ public class CitiesManagerBean {
 	}
 
 	public List<Customer> getCustomersForCity(){
-		return cityService.getCustomersForCity(cityId);
+		return cityService.getSortedCustomersForCity(cityId);
 	}
 	
 	public void deleteCustomer(AjaxBehaviorEvent e){
