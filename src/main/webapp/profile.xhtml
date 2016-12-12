@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<title>profile</title>
+</h:head>
+<h:body>
+	<a href="#{request.contextPath}/logout">logout</a>
+	<h:panelGroup layout="block" id="currentCustomerInfo">
+		<h1>Welcome #{customerProfileBean.customerName}</h1>
+		<h2>You are assigned to city #{customerProfileBean.customerCityName}</h2>
+	
+		<h:form>
+			<h:panelGrid columns="3">
+				Change your name :
+				<h:inputText id="newName" value="#{customerProfileBean.customerName}" size="20" />
+				<h:commandButton value="Update">
+					<f:ajax execute="newName" render="currentCustomerInfo" />
+				</h:commandButton>
+			</h:panelGrid>
+	
+			<h:panelGrid columns="3">
+				Change your city :
+				<h:selectOneMenu id="customerCountryList" value="#{customerProfileBean.currentCustomerCityId}">
+					<f:selectItems value="#{customerProfileBean.citiesMap}" />
+				</h:selectOneMenu>
+				<h:commandButton value="Update">
+					<f:ajax execute="customerCountryList" render="currentCustomerInfo" />
+				</h:commandButton>
+			</h:panelGrid>
+			
+			<h2>Manage people assigned to cities:</h2>	
+			<h:selectOneMenu id="countryList" value="#{customerProfileBean.cityId}">
+				<f:selectItems value="#{customerProfileBean.citiesMap}" />
+				<f:ajax event="change" execute="countryList" render="customers" />
+			</h:selectOneMenu>
+		
+			<h:dataTable id="customers" value="#{customerProfileBean.customersForCity}" var="customer">
+				<h:column>#{customer.id}</h:column>
+				<h:column>#{customer.name}</h:column>
+				<h:column>
+					<h:commandButton value="Delete" rendered="#{customer.id != customerProfileBean.customerId}">
+						<f:attribute name="customerId" value="#{customer.id}" />
+						<f:ajax listener="#{customerProfileBean.deleteCustomer}" render="currentCustomerInfo" />
+					</h:commandButton>
+				</h:column>
+			</h:dataTable>
+		</h:form>
+	</h:panelGroup>
+</h:body>
+</html>
