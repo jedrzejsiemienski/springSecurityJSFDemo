@@ -5,7 +5,6 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 
@@ -44,33 +43,44 @@ public class CustomerProfileBean {
 		cityId = customerService.getDefaultCity().getId();
 	}
 	
-	private CurrentCustomerData loadCurrentCustomer(){
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		return customerService.getCurrentCustomerData(auth.getName());			
+	CurrentCustomerData currentCustomer;
+	private void loadCurrentCustomer(boolean force){
+		if(currentCustomer == null || force){
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			currentCustomer = customerService.getCurrentCustomerData(auth.getName());			
+		}
 	}
 	
 	public void setCustomerName(String newName) {
-		customerService.changeCustomerName(loadCurrentCustomer().id, newName);
+		loadCurrentCustomer(false);
+		customerService.changeCustomerName(currentCustomer.id, newName);
+		loadCurrentCustomer(true);
 	}
 	
 	public void setCurrentCustomerCityId(long newCityId) {
-		customerService.changeCustomerCity(loadCurrentCustomer().id, newCityId);
+		loadCurrentCustomer(false);
+		customerService.changeCustomerCity(currentCustomer.id, newCityId);
+		loadCurrentCustomer(true);
 	}
 	
 	public String getCustomerName() {
-		return loadCurrentCustomer().name;
+		loadCurrentCustomer(false);
+		return currentCustomer.name;
 	}
 	
 	public long getCustomerId() {
-		return loadCurrentCustomer().id;
+		loadCurrentCustomer(false);
+		return currentCustomer.id;
 	}
 	
 	public String getCustomerCityName() {
-		return loadCurrentCustomer().cityName;
+		loadCurrentCustomer(false);
+		return currentCustomer.cityName;
 	}
 	
 	public long getCurrentCustomerCityId() {
-		return loadCurrentCustomer().cityId;
+		loadCurrentCustomer(false);
+		return currentCustomer.cityId;
 	}
 
 	public Map<String, Long> getCitiesMap(){
@@ -82,6 +92,7 @@ public class CustomerProfileBean {
 	}
 	
 	public void deleteCustomer(AjaxBehaviorEvent e){
+		logger.warn(String.format("Deleting customer"));
 		customerService.deleteCustomer(
 			(Long)e.getComponent().getAttributes().get("customerId"));
 	}
