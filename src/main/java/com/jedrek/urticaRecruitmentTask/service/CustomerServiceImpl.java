@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jedrek.urticaRecruitmentTask.model.City;
+import com.jedrek.urticaRecruitmentTask.model.CurrentCustomerData;
 import com.jedrek.urticaRecruitmentTask.model.Customer;
 import com.jedrek.urticaRecruitmentTask.repos.CityRepository;
 import com.jedrek.urticaRecruitmentTask.repos.CustomerRepository;
@@ -85,6 +87,18 @@ public class CustomerServiceImpl implements CustomerService{
 	
 	@Transactional
 	@Override
+	public CurrentCustomerData getCurrentCustomerData(String login){
+		Customer customer = customerRepo.findByLogin(login);
+		CurrentCustomerData result = new CurrentCustomerData();
+		result.id = customer.getId();
+		result.name = customer.getName();
+		result.cityId = customer.getCity().getId();
+		result.cityName = customer.getCity().getName();
+		return result;
+	}
+	
+	@Transactional
+	@Override
 	public boolean loginExists(String login){
 		return customerRepo.findByLogin(login) != null;
 	}
@@ -104,6 +118,12 @@ public class CustomerServiceImpl implements CustomerService{
 	public Map<String, Long> getCitiesMap(){
 		return StreamSupport.stream(cityRepo.findAll().spliterator(), false)
 				.collect(Collectors.toMap(City::getName, City::getId));
+	}
+	
+	@Transactional
+	@Override
+	public City getDefaultCity(){
+		return cityRepo.findAll().iterator().next();
 	}
 	
 }
