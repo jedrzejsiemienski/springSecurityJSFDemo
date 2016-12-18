@@ -1,4 +1,4 @@
-INSERT INTO City ( name ) VALUES ( "Wroclaw" );
-INSERT INTO City ( name ) VALUES ( "Warszawa" );
-INSERT INTO City ( name ) VALUES ( "Londyn" );
-INSERT INTO City ( name ) VALUES ( "Ladek zdroj" );
+INSERT INTO city ( name ) VALUES ( 'Wroclaw' );
+INSERT INTO city ( name ) VALUES ( 'Warszawa' );
+INSERT INTO city ( name ) VALUES ( 'Londyn' );
+INSERT INTO city ( name ) VALUES ( 'Ladek zdroj' );
