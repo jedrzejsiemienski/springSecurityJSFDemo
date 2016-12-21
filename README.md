@@ -7,3 +7,6 @@ This simple demo uses:
 - spring + hibernate for model layer
 - spring security for authentication and authorisation
 - JSF for presentation layer
+
+It was forked from my private github account, where I use
+my nickname (jenczuen).
